@@ -274,12 +274,20 @@ hi FoldColumn ctermbg=bg guibg=bg
 let NERDTreeChDirMode=2                                         " 设置当前目录为nerdtree的起始目录
 let NERDChristmasTree=1                                         " 使得窗口有更好看的效果
 let NERDTreeMouseMode=1                                         " 双击鼠标左键打开文件
-let NERDTreeWinSize=25                                          " 设置窗口宽度为25
-let NERDTreeQuitOnOpen=1                                        " 打开一个文件时nerdtree分栏自动关闭
+let NERDTreeWinSize=35                                          " 设置窗口宽度为25
+"let NERDTreeQuitOnOpen=1                                        " 打开一个文件时nerdtree分栏自动关闭
 
 
 " *********** ctags插件配置 ***********
 set tags+=~/.vim/ctags-5.8
+" 强烈建议添加此项，自定义索引文件
+if getfsize(".vimscript")>0
+
+   source .vimscript
+
+endif 
+"set tags=/wwwroot/share/sns_test_new/modules/apps/xmen/tags
+"set autochdir
 
 
 " ********* cscope插件配置 **********
@@ -378,6 +386,9 @@ let g:unite_source_menu_menus.git.command_candidates = [
 ""   \ 'jump_to_def_split': '<C-W><C-]>',
 ""   \ 'jump_to_def_vsplit': '<C-W><C-\>',
 ""   \}
+
+" 取消掉vim scratch
+set completeopt=menu
 
 "let g:phpcomplete_active_function_extensions = ['mongo']
 "let g:phpcomplete_active_class_extensions = ['mongo']
