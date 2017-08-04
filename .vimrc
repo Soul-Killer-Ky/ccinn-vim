@@ -184,6 +184,24 @@ func! CompileRunGcc()
     endif
 endfunc
 
+map <F9> :call FormatPhp(1)<CR>
+func! FormatPhp(args)
+    if &filetype =='php'
+        if a:args > 0 
+            exec "w"
+        endif
+        call system('php-cs-fixer fix '.expand('%:p').' --config=/wwwroot/share/localhost2/test/.php_cs')
+        exec "e!"
+    endif
+endfunc
+" 退出的时候，是否格式化文件
+"":autocmd VimLeavePre *.php call FormatPhp(0)
+
+map <F10> :call Test()<CR>
+func! Test()
+    let str = expand("<cword>")
+    echo str
+endfunc
 set autoindent                                                  " 自动套用上一行的缩进方式
 set smartindent                                                 " 智能缩进
 set mouse=a                                                     " 开启鼠标支持
@@ -535,6 +553,17 @@ map <C-k> <c-w>k
 map <C-l> <c-w>l
 map <C-h> <c-w>h
 
+" 为了方便复制内容到窗口外，快捷键取消窗口模式
+map <F4> :call ToggleCcinnMouse()<CR>
+imap <F4> <ESC> :call ToggleCcinnMouse()<CR>
+func! ToggleCcinnMouse()
+ if &mouse == "a"
+    exec "set mouse="
+ else 
+     exec "set mouse=a"
+ endif
+endfunc
+
 " <F7>生成ctags
 map <F7> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 im <F7> <Esc>:!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -562,26 +591,26 @@ endfunc
 "map <F4> :SyntasticCheck php (php)<CR>
 "im <F4> <Esc>:SyntasticCheck php (php)<CR>
 
-map <F4> call CheckSyntax<CR>
-im <F4> call <Esc>CheckSyntax<CR>
-function! CheckSyntax()
- if &filetype!="php"
- echohl WarningMsg | echo "Fail to check syntax! Please select the right file!" | echohl None
- return
- endif
- if &filetype=="php"
- " Check php syntax
- setlocal makeprg=\"php\"\ -l\ -n\ -d\ html_errors=off
+"map <F4> call CheckSyntax<CR>
+"im <F4> call <Esc>CheckSyntax<CR>
+"function! CheckSyntax()
+" if &filetype!="php"
+"" echohl WarningMsg | echo "Fail to check syntax! Please select the right file!" | echohl None
+"" return
+"" endif
+" if &filetype=="php"
+" " Check php syntax
+"" setlocal makeprg=\"php\"\ -l\ -n\ -d\ html_errors=off
  " Set shellpipe
- setlocal shellpipe=>
+"" setlocal shellpipe=>
  " Use error format for parsing PHP error output
- setlocal errorformat=%m\ in\ %f\ on\ line\ %l
- endif
- execute "silent make %"
- set makeprg=make
- execute "normal :"
- execute "copen"
-endfunction
+"" setlocal errorformat=%m\ in\ %f\ on\ line\ %l
+"" endif
+" execute "silent make %"
+"" set makeprg=make
+" execute "normal :"
+" execute "copen"
+"endfunction
 
 
 "" 代码格式优化化
