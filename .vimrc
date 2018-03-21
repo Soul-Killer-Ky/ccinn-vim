@@ -268,6 +268,23 @@ func! FormatPhp(args)
     endif
 endfunc
 
+" 为了方便复制内容到窗口外，快捷键取消窗口模式
+map <F4> :call ToggleCcinnMouse()<CR>                                                                                 
+imap <F4> <ESC> :call ToggleCcinnMouse()<CR>                                                                          
+func! ToggleCcinnMouse()                                                                                              
+   if &mouse == "a"                                                                                                    
+     exec "set mouse="                                                                                                 
+     exec "set nornu"                                                                                                  
+     exec "set nonu"                                                                                                   
+     exec "set nolist"                                                                                                 
+   else                                                                                                                                                                                                                                          
+     exec "set mouse=a"                                                                                                
+     exec "set rnu"                                                                                                    
+     exec "set nu"                                                                                                     
+     exec "set list"                                                                                                   
+   endif                                                                                                               
+endfunc 
+
 
 "********** 新建.c,.h,.sh,.php文件，自动插入文件头 **********
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.php exec ":call SetHead()"
